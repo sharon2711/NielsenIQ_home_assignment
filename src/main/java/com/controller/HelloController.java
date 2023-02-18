@@ -1,4 +1,4 @@
-package io.datawire.labs.hellospring;
+package com.controller;
 
 import java.util.concurrent.TimeUnit;
 
