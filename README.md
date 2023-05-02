@@ -10,12 +10,12 @@ This is an API service that provides shoppers personalized information to eComme
 - Java
 - Spring Boot
 - MySQL
-- Redis (for caching)
+- Redis
 - Gradle
 - Docker
 - Docker Compose
-- JUnit (for testing)
-- Mockito (for testing)
+- JUnit
+- Mockito
 
 ## Getting Started
 
