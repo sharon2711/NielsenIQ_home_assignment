@@ -18,7 +18,7 @@ public class InternalProductController {
     @PostMapping(path = "/",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createProduct(@RequestBody ProductRequest productRequest) throws Exception {
+    public ResponseEntity<?> createProduct(@RequestBody ProductRequest productRequest) {
         try {
             productService.createProduct(productRequest);
             return ResponseEntity.ok().build();

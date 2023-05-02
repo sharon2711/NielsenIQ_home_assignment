@@ -8,6 +8,7 @@ import init.service.ShopperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -20,13 +21,14 @@ public class MigrationServiceImpl implements MigrationService {
     ShopperService shopperService;
 
     @Override
-    public void createProductMigration(List<ProductRequest> productRequests) throws Exception {
+    public void createProductMigration(List<ProductRequest> productRequests) {
         for(ProductRequest productRequest : productRequests){
             productService.createProduct(productRequest);
         }
     }
 
     @Override
+    @Transactional
     public void createPersonalizedDataMigration(List<ShopperPersonalizedDataRequest> personalizedDataRequests) throws Exception {
         for(ShopperPersonalizedDataRequest personalizedDataRequest : personalizedDataRequests){
             shopperService.updateShopperPersonalizedData(personalizedDataRequest);

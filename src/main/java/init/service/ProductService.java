@@ -6,7 +6,7 @@ import init.model.ProductRequest;
 import java.util.List;
 
 public interface ProductService {
-   void createProduct(ProductRequest productRequest) throws Exception;
+   void createProduct(ProductRequest productRequest);
    Product getProductById(String productId);
    List<Product> getProductsByShopper(String shopperId, String category, String brand, Integer limit) throws Exception;
 }

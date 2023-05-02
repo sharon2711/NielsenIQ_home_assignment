@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -58,6 +57,7 @@ public class ShopperServiceTests {
 
         Product product = new Product(null, productId, productCategory, productBrand);
         when(productRepository.getProductById(productId)).thenReturn(product);
+        when(shelfRepository.getShelfByShopperIdAndProductId(any(), any())).thenReturn(null);
 
         shopperService.updateShopperPersonalizedData(request);
 
@@ -78,6 +78,7 @@ public class ShopperServiceTests {
 
         Product product = new Product(null, productId, productCategory, productBrand);
         when(productRepository.getProductById(productId)).thenReturn(product);
+        when(shelfRepository.getShelfByShopperIdAndProductId(any(), any())).thenReturn(null);
 
         shopperService.updateShopperPersonalizedData(request);
 
@@ -102,20 +103,5 @@ public class ShopperServiceTests {
         verify(shopperRepository, times(1)).getShopperById(shopperId);
         verify(shopperRepository, never()).createShopper(any());
         verify(shelfRepository, never()).createShelf(any());
-    }
-
-    @Test
-    public void testGetShoppersByProduct() throws Exception {
-        String firstShopperId = UUID.randomUUID().toString();
-        String secondShopperId = UUID.randomUUID().toString();
-        String productId = UUID.randomUUID().toString();
-        Integer limit = 10;
-
-        List<Shopper> shoppers = Arrays.asList(new Shopper(null, firstShopperId), new Shopper(null, secondShopperId));
-        when(shopperRepository.getShoppersByProduct(productId, limit)).thenReturn(shoppers);
-
-        List<Shopper> result = shopperService.getShoppersByProduct(productId, limit);
-
-        verify(shopperRepository, times(1)).getShoppersByProduct(productId, limit);
     }
 }

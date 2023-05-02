@@ -51,7 +51,7 @@ public class ShopperRepositoryImpl implements ShopperRepository {
     @Override
     public List<Shopper> getShoppersByProduct(String productId, Integer limit) throws Exception {
 
-        String cacheKey = String.format("shoppers.product:%s.limit:%d", productId, limit);
+        String cacheKey = String.format("shoppers.product:%s.limit:%s", productId, limit);
 
         if (cacheRepository.isKeyExist(cacheKey)) {
             String cachedData = cacheRepository.get(cacheKey);

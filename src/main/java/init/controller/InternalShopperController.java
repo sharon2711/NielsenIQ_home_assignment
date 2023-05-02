@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/api/internal/shopper")
 public class InternalShopperController {
@@ -28,6 +30,7 @@ public class InternalShopperController {
         }
     }
 
+    @Transactional
     @PutMapping(value = "/personalized",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

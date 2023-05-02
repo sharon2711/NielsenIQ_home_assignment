@@ -30,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void createProduct(Product product) throws Exception {
+    public void createProduct(Product product){
         String sql = "INSERT INTO " + PRODUCT_TABLE_NAME + " (product_id, category, brand) values (?, ?, ?)";
         jdbcTemplate.update(
                 sql,
@@ -54,7 +54,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> getProductsByShopper(String shopperId, String category, String brand, Integer limit) throws Exception {
 
-        String cacheKey = String.format("products.shopper:%s.category:%s.brand:%s.limit:%d", shopperId, category, brand, limit);
+        String cacheKey = String.format("products.shopper:%s.category:%s.brand:%s.limit:%s", shopperId, category, brand, limit);
 
         if (cacheRepository.isKeyExist(cacheKey)) {
             String cachedData = cacheRepository.get(cacheKey);

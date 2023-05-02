@@ -16,7 +16,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public void createProduct(ProductRequest productRequest) throws Exception {
+    public void createProduct(ProductRequest productRequest) {
         productRepository.createProduct(productRequest.toProduct());
     }
 
