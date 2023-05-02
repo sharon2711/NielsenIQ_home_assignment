@@ -43,9 +43,9 @@ You will need to have the following tools installed on your machine:
    ```
    docker-compose up
    ```
-
+   
 5. Open the project in IntelliJ IDEA.
 
 6. Run the main application class.
 
-7. The application should now be running on `http://localhost:8080`.
+7. The application should now be running on `http://localhost:8080`.]
