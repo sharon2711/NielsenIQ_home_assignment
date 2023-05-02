@@ -48,4 +48,4 @@ You will need to have the following tools installed on your machine:
 
 6. Run the main application class.
 
-7. The application should now be running on `http://localhost:8080`.]
+7. The application should now be running on `http://localhost:8080`.
