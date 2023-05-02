@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: mysql/mysql-server:5.7
+    environment:
+      - MYSQL_DATABASE=personalized
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./backend/mysql-init:/docker-entrypoint-initdb.d/
+    command: --default-authentication-plugin=mysql_native_password
+  redis:
+    container_name: "redis"
+    image: redis:alpine
+    ports:
+      - "6379:6379"
