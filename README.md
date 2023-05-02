@@ -42,10 +42,14 @@ You will need to have the following tools installed on your machine:
    gradle clean build
    ```
 
-4. Run the following command to start the application using Docker Compose:
+4. Run the following command to start MySQL and Redis using Docker Compose:
 
    ```
    docker-compose up
    ```
 
-5. The application should now be running on `http://localhost:8080`.
+5. Open the project in IntelliJ IDEA.
+
+6. Run the main application class.
+
+7. The application should now be running on `http://localhost:8080`.
