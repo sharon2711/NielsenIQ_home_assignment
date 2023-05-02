@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/internal/shopper")
-public class ShopperController {
+public class InternalShopperController {
 
     @Autowired
     ShopperService shopperService;

@@ -9,10 +9,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
+import java.util.List;
+
 @Repository
 public class ShopperRepositoryImpl implements ShopperRepository {
 
     private static final String SHOPPER_TABLE_NAME = "shopper";
+    private static final String SHELF_TABLE_NAME = "shelf";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -36,6 +40,16 @@ public class ShopperRepositoryImpl implements ShopperRepository {
             return shopper;
         } catch (EmptyResultDataAccessException error){
             return null;
+        }
+    }
+
+    @Override
+    public List<Shopper> getShoppersByProduct(String productId, Integer limit) {
+        String sql = "SELECT * FROM " + SHOPPER_TABLE_NAME + " s INNER JOIN " + SHELF_TABLE_NAME + " sh ON s.shopper_id = sh.shopper_id WHERE sh.product_id=? LIMIT ?";
+        try {
+            return jdbcTemplate.query(sql, new Object[]{productId, limit}, new ShopperMapper());
+        } catch (EmptyResultDataAccessException error) {
+            return Collections.emptyList();
         }
     }
 }

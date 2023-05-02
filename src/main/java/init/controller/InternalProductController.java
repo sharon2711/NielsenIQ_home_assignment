@@ -7,11 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/internal/product")
-public class ProductController {
+public class InternalProductController {
 
     @Autowired
     ProductService productService;
@@ -26,12 +25,5 @@ public class ProductController {
         } catch (Exception exception){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
         }
-    }
-
-    @GetMapping(path = "/",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ProductResponse> getProductsByShopper(ProductRequest productRequest) throws Exception {
-        return productService.getProductsByShopper(productRequest);
     }
 }

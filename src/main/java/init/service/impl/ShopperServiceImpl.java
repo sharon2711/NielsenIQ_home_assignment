@@ -8,6 +8,8 @@ import init.service.ShopperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShopperServiceImpl implements ShopperService {
 
@@ -37,6 +39,11 @@ public class ShopperServiceImpl implements ShopperService {
         }
     }
 
+    @Override
+    public List<Shopper> getShoppersByProduct(String productId, Integer limit) {
+        return shopperRepository.getShoppersByProduct(productId, limit);
+    }
+
     private void handleCreateShelf(ShopperPersonalizedDataRequest shopperPersonalizedDataRequest) throws Exception {
         for(ShopperProductData shopperProductData : shopperPersonalizedDataRequest.getShelf()) {
             Product product = productRepository.getProductById(shopperProductData.getProductId());
@@ -44,7 +51,7 @@ public class ShopperServiceImpl implements ShopperService {
                 Shelf shelfToCreate = new Shelf(null, shopperPersonalizedDataRequest.getShopperId(), product.getProductId(), shopperProductData.getRelevancyScore());
                 shelfRepository.createShelf(shelfToCreate);
             } else {
-                throw new Exception("Provided product id not exists");
+                throw new Exception("Provided product id: " + shopperProductData.getProductId() + " not exists");
             }
         }
     }

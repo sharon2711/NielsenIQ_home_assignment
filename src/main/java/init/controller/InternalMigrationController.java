@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/internal/migration")
-public class MigrationController {
+public class InternalMigrationController {
 
     @Autowired
     MigrationService migrationService;

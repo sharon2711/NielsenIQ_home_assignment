@@ -26,14 +26,8 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-
     @Override
-    public List<ProductResponse> getProductsByShopper(ProductRequest productRequest) throws Exception {
-//        if (productRequest.getShopperId() == null) {
-//            return null;
-//        } else {
-//            return productRepository.getProductsByShopper(productRequest);
-//        }
-        return null;
+    public List<Product> getProductsByShopper(String shopperId, String category, String brand, Integer limit) throws Exception {
+        return productRepository.getProductsByShopper(shopperId, category, brand, limit);
     }
 }
