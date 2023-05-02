@@ -1,24 +1,51 @@
-# Hello, World (Java/Spring Boot)
+# Personalized Data API
 
-This is a Java/Spring Boot template for building a microservice in Kubernetes and Docker. This template is designed for use with [Forge](https://forge.sh), [Telepresence](https://www.telepresence.io), and [Ambassador](https://www.getambassador.io).
+This is an API service that provides shoppers personalized information to eCommerce servers. The service consists of two main parts:
 
-# Repository structure
+1. Interface with data team (internal) - Receiving shoppers' personalized information and product metadata from the data team and storing it in a specified database.
+2. Interface with eCommerce (external) - Provide fast read operation for the shoppers' personalized information.
 
-The main files in this repository are:
+## Technologies
 
-* `Dockerfile` specifies how the application is built and packaged
-* `k8s/deployment.yaml` contains a templated Kubernetes manifest, with additional annotations for configuring Ambassador
-* `service.yaml` contains values (typically configured by a developer) that will be instantiated into the Kubernetes manifest. This `service.yaml` has also been configured to support [fast incremental container builds with Forge](https://forge.sh/docs/reference/customize-container-builds#enabling-incremental-builds).
-* `src/` contains the actual Java application
+- Java
+- Spring Boot
+- MySQL
+- Redis (for caching)
+- Gradle
+- Docker
+- Docker Compose
+- JUnit (for testing)
+- Mockito (for testing)
 
-# Usage
+## Getting Started
 
-* To deploy this service into Kubernetes from source, type `forge deploy`. If you want to expose this service automatically through an API Gateway, make sure you've installed Ambassador first
-* To run this service locally via Telepresence:
-  * Build a local dev environment: `docker build . -t spring-boot-dev-local`
-  * Deploy into Kubernetes, if you haven't already ('forge deploy')
-  * Run Telepresence: `telepresence --swap-deployment hello-spring-master --docker-run --rm -i -t spring-boot-dev-local`
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-# License
+### Prerequisites
 
-Licensed under Apache 2.0. Please see [LICENSE](LICENSE) for details.
+You will need to have the following tools installed on your machine:
+
+- Java
+- Gradle
+- Docker
+- Docker Compose
+
+### Running the Application
+
+1. Clone the repository to your local machine.
+
+2. Navigate to the root directory of the project.
+
+3. Run the following command to build the application:
+
+   ```
+   gradle clean build
+   ```
+
+4. Run the following command to start the application using Docker Compose:
+
+   ```
+   docker-compose up
+   ```
+
+5. The application should now be running on `http://localhost:8080`.
