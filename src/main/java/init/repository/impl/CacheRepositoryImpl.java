@@ -1,5 +1,6 @@
 package init.repository.impl;
 
+import init.config.RedisDetailsConfig;
 import init.repository.CacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,9 +14,13 @@ public class CacheRepositoryImpl implements CacheRepository {
     @Autowired
     JedisPooled jedisPool;
 
+    @Autowired
+    RedisDetailsConfig redisDetailsConfig;
+
     @Override
     public void insertSet(String key, String value){
         jedisPool.set(key, value);
+        setExpireToKey(key);
     }
 
     @Override
@@ -29,23 +34,20 @@ public class CacheRepositoryImpl implements CacheRepository {
     }
 
     @Override
-    public long insertSadd(String key, String value) {
-        return jedisPool.sadd(key, value);
-    }
-
-    @Override
-    public Set<String> getAllSaddByKey(String key) {
-        return jedisPool.smembers(key);
-    }
-
-    @Override
     public Boolean isKeyExist(String key) {
         return jedisPool.exists(key);
     }
 
     @Override
     public void setExpireToKey(String key) {
-        jedisPool.expire(key, 30);
+        jedisPool.expire(key, redisDetailsConfig.getTtl());
     }
 
+    @Override
+    public void deleteKeysByPattern(String pattern) {
+        Set<String> keys = jedisPool.keys(pattern);
+        for (String key : keys) {
+            delete(key);
+        }
+    }
 }

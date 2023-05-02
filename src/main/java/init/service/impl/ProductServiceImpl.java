@@ -2,7 +2,6 @@ package init.service.impl;
 
 import init.model.Product;
 import init.model.ProductRequest;
-import init.model.ProductResponse;
 import init.repository.ProductRepository;
 import init.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

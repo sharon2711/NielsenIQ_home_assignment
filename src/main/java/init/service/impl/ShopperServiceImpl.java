@@ -40,7 +40,7 @@ public class ShopperServiceImpl implements ShopperService {
     }
 
     @Override
-    public List<Shopper> getShoppersByProduct(String productId, Integer limit) {
+    public List<Shopper> getShoppersByProduct(String productId, Integer limit) throws Exception {
         return shopperRepository.getShoppersByProduct(productId, limit);
     }
 
@@ -48,8 +48,13 @@ public class ShopperServiceImpl implements ShopperService {
         for(ShopperProductData shopperProductData : shopperPersonalizedDataRequest.getShelf()) {
             Product product = productRepository.getProductById(shopperProductData.getProductId());
             if (product != null) {
-                Shelf shelfToCreate = new Shelf(null, shopperPersonalizedDataRequest.getShopperId(), product.getProductId(), shopperProductData.getRelevancyScore());
-                shelfRepository.createShelf(shelfToCreate);
+                Shelf existingShelf = shelfRepository.getShelfByShopperIdAndProductId(shopperPersonalizedDataRequest.getShopperId(), product.getProductId());
+                if(existingShelf == null){
+                    Shelf shelfToCreate = new Shelf(null, shopperPersonalizedDataRequest.getShopperId(), product.getProductId(), shopperProductData.getRelevancyScore());
+                    shelfRepository.createShelf(shelfToCreate);
+                } else {
+                    throw new Exception("Provided shelf with shopper id: " + shopperPersonalizedDataRequest.getShopperId() + " and product id: " + product.getProductId() + " is already exists");
+                }
             } else {
                 throw new Exception("Provided product id: " + shopperProductData.getProductId() + " not exists");
             }

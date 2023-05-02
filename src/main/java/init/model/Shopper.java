@@ -4,6 +4,8 @@ public class Shopper {
     private Long id;
     private String shopperId;
 
+    public Shopper(){}
+
     public Shopper(Long id, String shopperId) {
         this.id = id;
         this.shopperId = shopperId;

@@ -6,6 +6,8 @@ public class Product {
     private String category;
     private String brand;
 
+    public Product(){}
+
     public Product(Long id, String productId, String category, String brand) {
         this.id = id;
         this.productId = productId;

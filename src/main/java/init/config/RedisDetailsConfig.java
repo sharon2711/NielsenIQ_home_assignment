@@ -1,7 +1,5 @@
 package init.config;
 
-// maybe the name of the class should be JedisDetailsConfig ?
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 

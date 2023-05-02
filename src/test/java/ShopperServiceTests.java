@@ -105,7 +105,7 @@ public class ShopperServiceTests {
     }
 
     @Test
-    public void testGetShoppersByProduct() {
+    public void testGetShoppersByProduct() throws Exception {
         String firstShopperId = UUID.randomUUID().toString();
         String secondShopperId = UUID.randomUUID().toString();
         String productId = UUID.randomUUID().toString();

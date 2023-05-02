@@ -9,5 +9,5 @@ import java.util.List;
 public interface ShopperService {
     void createShopper(ShopperRequest shopperRequest) throws Exception;
     void updateShopperPersonalizedData(ShopperPersonalizedDataRequest shopperPersonalizedDataRequest) throws Exception;
-    List<Shopper> getShoppersByProduct(String productId, Integer limit);
+    List<Shopper> getShoppersByProduct(String productId, Integer limit) throws Exception;
 }

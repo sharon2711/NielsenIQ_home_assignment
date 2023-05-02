@@ -1,9 +1,9 @@
 package init.repository.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import init.model.Product;
-import init.model.ProductRequest;
-import init.model.ProductResponse;
+import init.repository.CacheRepository;
 import init.repository.ProductRepository;
 import init.repository.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private CacheRepository cacheRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,6 +53,23 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> getProductsByShopper(String shopperId, String category, String brand, Integer limit) throws Exception {
+
+        String cacheKey = String.format("products.shopper:%s.category:%s.brand:%s.limit:%d", shopperId, category, brand, limit);
+
+        if (cacheRepository.isKeyExist(cacheKey)) {
+            String cachedData = cacheRepository.get(cacheKey);
+            return objectMapper.readValue(cachedData, new TypeReference<List<Product>>() {});
+        } else {
+            List<Product> productList = handleGetProductsByShopperFromDB(shopperId, category, brand, limit);
+            if (!productList.isEmpty()) {
+                String productListJson = objectMapper.writeValueAsString(productList);
+                cacheRepository.insertSet(cacheKey, productListJson);
+            }
+            return productList;
+        }
+    }
+
+    private List<Product> handleGetProductsByShopperFromDB(String shopperId, String category, String brand, Integer limit) throws Exception {
         StringBuilder sql = new StringBuilder("SELECT * FROM " + PRODUCT_TABLE_NAME + " p INNER JOIN " + SHELF_TABLE_NAME + " s ON p.product_id = s.product_id WHERE s.shopper_id=?");
         List<Object> params = new ArrayList<>();
         params.add(shopperId);

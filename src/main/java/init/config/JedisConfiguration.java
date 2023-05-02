@@ -7,6 +7,7 @@ import redis.clients.jedis.JedisPooled;
 
 @Configuration
 public class JedisConfiguration {
+
     @Autowired
     private RedisDetailsConfig redisDetailsConfig;
 

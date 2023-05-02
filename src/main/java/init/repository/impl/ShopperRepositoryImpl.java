@@ -1,7 +1,9 @@
 package init.repository.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import init.model.Shopper;
+import init.repository.CacheRepository;
 import init.repository.ShopperRepository;
 import init.repository.mapper.ShopperMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class ShopperRepositoryImpl implements ShopperRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private CacheRepository cacheRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -44,7 +49,24 @@ public class ShopperRepositoryImpl implements ShopperRepository {
     }
 
     @Override
-    public List<Shopper> getShoppersByProduct(String productId, Integer limit) {
+    public List<Shopper> getShoppersByProduct(String productId, Integer limit) throws Exception {
+
+        String cacheKey = String.format("shoppers.product:%s.limit:%d", productId, limit);
+
+        if (cacheRepository.isKeyExist(cacheKey)) {
+            String cachedData = cacheRepository.get(cacheKey);
+            return objectMapper.readValue(cachedData, new TypeReference<List<Shopper>>() {});
+        } else {
+            List<Shopper> shopperList = handleGetShoppersByProductFromDB(productId, limit);
+            if (!shopperList.isEmpty()) {
+                String productListJson = objectMapper.writeValueAsString(shopperList);
+                cacheRepository.insertSet(cacheKey, productListJson);
+            }
+            return shopperList;
+        }
+    }
+
+    private List<Shopper> handleGetShoppersByProductFromDB(String productId, Integer limit){
         String sql = "SELECT * FROM " + SHOPPER_TABLE_NAME + " s INNER JOIN " + SHELF_TABLE_NAME + " sh ON s.shopper_id = sh.shopper_id WHERE sh.product_id=? LIMIT ?";
         try {
             return jdbcTemplate.query(sql, new Object[]{productId, limit}, new ShopperMapper());
