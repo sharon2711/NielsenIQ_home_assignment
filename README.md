@@ -17,10 +17,6 @@ This is an API service that provides shoppers personalized information to eComme
 - JUnit
 - Mockito
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
 You will need to have the following tools installed on your machine:
